@@ -26,3 +26,26 @@ fn roman_to_int (s: String) -> i32 {
   }
   res
 }
+
+impl Solution {
+    pub fn roman_to_int(s: String) -> i32 {
+        s.chars()
+        .rev()
+        .map(|c| match c {
+            'I' => 1,
+            'V' => 5,
+            'X' => 10,
+            'L' => 50,
+            'C' => 100,
+            'D' => 500,
+            'M' => 1000,
+            _ => 0,
+        })
+        .scan(i32::min_value(), |state, x| {
+            let result = if x < *state { -x } else { x };
+            *state = x;
+            Some(result)
+        })
+        .sum()
+    }
+}
